@@ -56,7 +56,7 @@ public class PlaygroundCssApp extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setLeft(buildLeft());
         borderPane.setRight(buildRight());
-        borderPane.setCenter(buildCenter(5));
+        borderPane.setCenter(new CenterDisplay(5.0));
         borderPane.setBottom(buildBottom(borderPane));
 
         borderPane.getCenter().styleProperty().bind(centerStyle);
@@ -109,18 +109,6 @@ public class PlaygroundCssApp extends Application {
         textArea.setText(stringJoiner.toString());
         centerStyle.bindBidirectional(textArea.textProperty());
         return textArea;
-    }
-
-    private Node buildCenter(double scale) {
-        StackPane stackPane = new StackPane();
-
-        Button button = new Button("Button");
-        stackPane.getChildren().add(button);
-        StackPane.setAlignment(button, Pos.CENTER);
-
-        stackPane.getChildren().forEach(c -> c.setScaleX(scale));
-        stackPane.getChildren().forEach(c -> c.setScaleY(scale));
-        return stackPane;
     }
 
     public Node buildBottom(Region parent) {
