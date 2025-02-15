@@ -22,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+// TODO move button bar to the left and table thing to the bottom
+
 public class PlaygroundCssApp extends Application {
 
     private static final StringProperty centerStyle = new SimpleStringProperty();
@@ -54,12 +56,21 @@ public class PlaygroundCssApp extends Application {
     public BorderPane buildView() {
         //border panes are neat
         BorderPane borderPane = new BorderPane();
+        // it has a left
         borderPane.setLeft(buildLeft());
-        borderPane.setRight(buildRight());
-        borderPane.setCenter(new CenterDisplay(5.0));
+        // right
+        StyleEdit styleEdit = new StyleEdit("app.css");
+        centerStyle.bindBidirectional(styleEdit.textProperty());
+        borderPane.setRight(styleEdit);
+        // and center
+        CenterDisplay centerDisplay = new CenterDisplay(5.0);
+        centerDisplay.styleProperty().bind(centerStyle);
+        borderPane.setCenter(centerDisplay);
+        // plus a lil bottom
         borderPane.setBottom(buildBottom(borderPane));
 
-        borderPane.getCenter().styleProperty().bind(centerStyle);
+        // other bindings here
+
 
         return borderPane;
     }
