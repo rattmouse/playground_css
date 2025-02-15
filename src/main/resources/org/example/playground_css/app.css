@@ -1,0 +1,21 @@
+.root{
+	-fx-background-color : dimgrey;
+    -fx-font-size: 12px;
+	-fx-fill-width : true;
+	-fx-fill-height : true;
+	-fx-focus-color : transparent;
+	-fx-faint-focus-color: transparent;
+}
+
+.button {
+  -fx-background-radius: 0px;
+  -fx-background-insets: 0px;
+}
+
+.text-field {
+  -fx-background-radius: 0px;
+  -fx-background-insets: 0px;
+}
+
+.table-view {
+}
