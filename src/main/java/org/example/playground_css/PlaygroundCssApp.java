@@ -31,7 +31,7 @@ public class PlaygroundCssApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Scene scene = new Scene(buildView(), 1200, 365);
+        Scene scene = new Scene(buildView(), 1200, 500);
 
         props.add(scene.heightProperty());
         props.add(scene.widthProperty());
@@ -39,8 +39,8 @@ public class PlaygroundCssApp extends Application {
 //        scene.getStylesheets().add(PlaygroundCssApp.class.getResource("app.css").toExternalForm());
         stage.setTitle("Hello!");
 //        stage.setAlwaysOnTop(true);
-        stage.setX(45);
-        stage.setY(170);
+        stage.setX(2150);
+        stage.setY(160);
         stage.setScene(scene);
         stage.show();
 
@@ -57,7 +57,10 @@ public class PlaygroundCssApp extends Application {
         //border panes are neat
         BorderPane borderPane = new BorderPane();
         // it has a left
-        borderPane.setLeft(buildLeft());
+        ButtonBar buttonBar = new ButtonBar(100);
+        buttonBar.addButton("reload", e -> reloadCss(borderPane));
+        buttonBar.addButton("clear", e -> clearCss(borderPane));
+        borderPane.setLeft(buttonBar);
         // right
         StyleEdit styleEdit = new StyleEdit("app.css");
         centerStyle.bindBidirectional(styleEdit.textProperty());
@@ -67,7 +70,7 @@ public class PlaygroundCssApp extends Application {
         centerDisplay.styleProperty().bind(centerStyle);
         borderPane.setCenter(centerDisplay);
         // plus a lil bottom
-        borderPane.setBottom(buildBottom(borderPane));
+        borderPane.setBottom(buildLeft());
 
         // other bindings here
 
@@ -87,6 +90,11 @@ public class PlaygroundCssApp extends Application {
     private Node buildLeft() {
         TableView<ReadOnlyProperty<?>> tableView = new TableView<>();
         tableView.setItems(props);
+        tableView.setPrefHeight(200);
+
+        TableColumn<ReadOnlyProperty<?>, String> beanCol = new TableColumn<>("Bean");
+        beanCol.setCellValueFactory(cell -> Bindings.createStringBinding(() -> cell.getValue().getBean().toString(), cell.getValue()));
+        tableView.getColumns().add(beanCol);
 
         TableColumn<ReadOnlyProperty<?>, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(cell -> Bindings.createStringBinding(() -> cell.getValue().getName(), cell.getValue()));
@@ -95,10 +103,6 @@ public class PlaygroundCssApp extends Application {
         TableColumn<ReadOnlyProperty<?>, String> valCol = new TableColumn<>("Val");
         valCol.setCellValueFactory(cell -> Bindings.createStringBinding(cell.getValue().getValue()::toString, cell.getValue()));
         tableView.getColumns().add(valCol);
-
-        TableColumn<ReadOnlyProperty<?>, String> beanCol = new TableColumn<>("Bean");
-        beanCol.setCellValueFactory(cell -> Bindings.createStringBinding(() -> cell.getValue().getBean().toString(), cell.getValue()));
-        tableView.getColumns().add(beanCol);
 
         TableColumn<ReadOnlyProperty<?>, String> hashCol = new TableColumn<>("Prop Hash");
         hashCol.setCellValueFactory(cell -> Bindings.createStringBinding(() -> Integer.toHexString(cell.getValue().hashCode()), cell.getValue()));
@@ -114,7 +118,7 @@ public class PlaygroundCssApp extends Application {
 
         Rectangle rectangle = new Rectangle();
         rectangle.widthProperty().bind(parent.widthProperty());
-        rectangle.setHeight(100);
+        rectangle.setHeight(300);
         stackPane.getChildren().add(rectangle);
 
         Button one = new Button("reload");
