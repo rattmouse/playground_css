@@ -109,19 +109,6 @@ public class PlaygroundCssApp extends Application {
         return tableView;
     }
 
-    private Node buildRight() {
-        TextArea textArea = new TextArea();
-        StringJoiner stringJoiner = new StringJoiner("\n");
-        try {
-            Files.readAllLines(Path.of(PlaygroundCssApp.class.getResource("app.css").getFile())).forEach(stringJoiner::add);
-        } catch (IOException e) {
-            Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).forEach(stringJoiner::add);
-        }
-        textArea.setText(stringJoiner.toString());
-        centerStyle.bindBidirectional(textArea.textProperty());
-        return textArea;
-    }
-
     public Node buildBottom(Region parent) {
         StackPane stackPane = new StackPane();
 

@@ -7,13 +7,14 @@ import javafx.scene.layout.StackPane;
 public class CenterDisplay extends StackPane {
     private final double scale;
 
-    public CenterDisplay() {
-        this(1.0);
-    }
-
     public CenterDisplay(double scale) {
+        super();
         this.scale = scale;
         build();
+    }
+
+    public CenterDisplay() {
+        this(1.0);
     }
 
     public void build() {
